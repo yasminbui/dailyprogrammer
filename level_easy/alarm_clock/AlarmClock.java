@@ -1,11 +1,18 @@
 import java.util.Map;
 import java.util.HashMap;
 
+/*
+	 @author Yasmin Bui
+	 - a program that takes as input a time (string) in the format hh:mm and displays the time phonetically.
+	 - e.g. the input '23:11' will output 'The time is eleven eleven pm'
+*/
+
 public class AlarmClock{
 
 	public static final Map<Integer, String> timeMapping;
 	public static boolean isAM = false;
 
+	// initialise HashMap with a static block, mapping numbers to their phonetic spelling
 	static{
 		timeMapping = new HashMap<>();
 		timeMapping.put(1, " one");
@@ -36,6 +43,7 @@ public class AlarmClock{
 	public static void main(String[] args){
 		int hour, minute;
 
+		// split input by ':' to get hour and minutes
 		String[] time = new String[2];
 		for(String x: args){
 			time = x.split(":");
@@ -46,13 +54,17 @@ public class AlarmClock{
 		}else{
 			hour = Integer.parseInt(time[0]);
 			minute = Integer.parseInt(time[1]);
+
+			// get 12 hour format if input is in the pm
 			int formatted_hour = convertHour(hour);
 
 			String str_hour = ""; 
 			String str_minute = "";
 
+			// get string value of hour
 			str_hour = lookupMap(formatted_hour);
 
+			// get string value of minute
 			str_minute = convertMinute(minute);
 
 			printOutput(str_hour, str_minute);
@@ -61,6 +73,7 @@ public class AlarmClock{
 		System.exit(0);
 	}
 
+	// iterate through map checking whether the value of 'searchIndex' is an existing key, if it is then return the value of key 
 	public static String lookupMap(int searchIndex){
 		String str = "";
 		for(Map.Entry<Integer, String> entry : timeMapping.entrySet()){
@@ -71,6 +84,7 @@ public class AlarmClock{
 		return str;
 	}
 
+	// if hour is in the pm, return hour mod 12 to get phonetic spelling
 	public static int convertHour(int hour){
 		if(hour >= 12){
 			isAM = false;
@@ -89,10 +103,12 @@ public class AlarmClock{
 		String str = "";
 		int mod = 0;
 
+		// if minute already exists within the map then look up it's phonetic spelling in the map straight away
 		if(minute <= 20 || minute == 30 || minute == 40 || minute == 50){
 			str = lookupMap(minute);
 			return str;
-		}else if(minute >= 21 && minute <= 29){
+		} // mod minute by the tenth which it is in (i.e. if the minute is 29 then do 29 mod 20) to get the phonetic spelling of the second digit
+		else if(minute >= 21 && minute <= 29){
 			mod = 20;
 		}else if(minute >= 31 && minute <= 39){
 			mod = 30;
@@ -105,7 +121,9 @@ public class AlarmClock{
 		str = lookupMap(mod);
 
 		int result = minute % mod; 
-		str = str + " " + lookupMap(result);
+		
+		// concat the string value of hour with string returned from calling lookupMap() with the minute's second digit as an argument
+		str = str + lookupMap(result);
 		return str;
 	}
 
