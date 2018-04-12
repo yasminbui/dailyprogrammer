@@ -27,3 +27,7 @@ It's twelve oh five pm<br />
 It's two oh one pm<br />
 It's eight twenty nine pm<br />
 It's nine pm
+
+**Additional Material**
+
+The original problem statement can be found here: https://www.reddit.com/r/dailyprogrammer/comments/6jr76h/20170627_challenge_321_easy_talking_clock/
